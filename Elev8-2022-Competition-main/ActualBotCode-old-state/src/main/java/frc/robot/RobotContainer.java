@@ -8,11 +8,11 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+// import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.auto.intake.AutonomousIntakeCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -22,27 +22,27 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.VisionConstants;
 // import frc.robot.Constants.OIConstants.OIJoyC;
 // import frc.robot.commands.auto.drive.AutonomousDriveRoutineGroupCommand;
-import frc.robot.commands.auto.drive.AutonomousTurnByAngleCommand;
+// import frc.robot.commands.auto.drive.AutonomousTurnByAngleCommand;
 import frc.robot.commands.auto.drive.tester.DriveBySecondCoordinateCommand;
 import frc.robot.commands.auto.drive.tester.DriveToACoordinateCommand;
-import frc.robot.commands.auto.intake.IntakeByTimeCommand;
-import frc.robot.commands.auto.shooter.ShooterByTimeCommand;
-import frc.robot.commands.teleop.ReverseCommand;
 // import frc.robot.commands.auto.shooter.ShooterByTimeCommand;
 import frc.robot.commands.teleop.climber.inner.InnerClimberCommand;
+import frc.robot.commands.teleop.climber.inner.InnerClimberHorizontalAlignmentCommand;
 import frc.robot.commands.teleop.climber.outer.OuterClimberCommand;
+import frc.robot.commands.teleop.climber.outer.OuterClimberHorizontalAlignmentCommand;
 import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberCommand;
 import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberStopCommand;
 import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberCommand;
 import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberStopCommand;
 import frc.robot.commands.teleop.drive.DriveCommand;
 import frc.robot.commands.teleop.feeder.FeederCommand;
-import frc.robot.commands.teleop.feeder.servoCommand;
+import frc.robot.commands.teleop.feeder.ServoFeederCommand;
 // import frc.robot.commands.teleop.feeder.FeederCommand;
 import frc.robot.commands.teleop.intake.IntakeCommand;
 import frc.robot.commands.teleop.intake.IntakeStoppingCommand;
+import frc.robot.commands.teleop.intake.ReverseCommand;
 import frc.robot.commands.teleop.shooter.ShooterCommand;
-import frc.robot.commands.teleop.shooter.ShooterJoyTestCommand;
+// import frc.robot.commands.teleop.shooter.ShooterJoyTestCommand;
 // import frc.robot.commands.teleop.shooter.ShooterCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
@@ -53,7 +53,6 @@ import frc.robot.subsystems.climber.inner.InnerClimberSubsystem;
 import frc.robot.subsystems.climber.outer.OuterClimberSubsystem;
 import frc.robot.subsystems.climber.pg.InnerPGSubsystem;
 import frc.robot.subsystems.climber.pg.OuterPGSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -67,7 +66,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class RobotContainer {
   // IO Devices
 
-  public static double GYRO_OFFSET = 90;
   public static Joystick joyD, joyC;
   public static NetworkTable table;
   public static NetworkTableEntry tv, tx, ty, ta;
@@ -127,30 +125,24 @@ public class RobotContainer {
     // RobotContainer.joyD.getRawAxis(3)));
 
     // PG - Inner
-    this.innerPGSubsystem.setDefaultCommand(new
-    InnerPGClimberCommand(this.innerPGSubsystem,
-    () -> RobotContainer.joyC.getRawAxis(OIConstants.OIJoyC.innerPG_Axis_Two),
-    () ->
-    RobotContainer.joyC.getRawButton(OIConstants.OIJoyC.innerPG_Button_Five)));
+    this.innerPGSubsystem.setDefaultCommand(new InnerPGClimberCommand(this.innerPGSubsystem,
+        () -> RobotContainer.joyC.getRawAxis(OIConstants.OIJoyC.innerPG_Axis_Two),
+        () -> RobotContainer.joyC.getRawButton(OIConstants.OIJoyC.innerPG_Button_Five)));
 
     // PG - Outer
-    this.outerPGSubsystem.setDefaultCommand(new
-    OuterPGClimberCommand(this.outerPGSubsystem,
-    () -> RobotContainer.joyC.getRawAxis(OIConstants.OIJoyC.outerPG_Axis_Three),
-    () ->
-    RobotContainer.joyC.getRawButton(OIConstants.OIJoyC.outerPG_Button_Six)));
+    this.outerPGSubsystem.setDefaultCommand(new OuterPGClimberCommand(this.outerPGSubsystem,
+        () -> RobotContainer.joyC.getRawAxis(OIConstants.OIJoyC.outerPG_Axis_Three),
+        () -> RobotContainer.joyC.getRawButton(OIConstants.OIJoyC.outerPG_Button_Six)));
 
     // Climber - Inner
     this.innerClimberSubsystem.setDefaultCommand(
-    new InnerClimberCommand(this.innerClimberSubsystem,
-    () ->
-    (Math.abs(RobotContainer.joyC.getRawAxis(OIConstants.OIJoyC.innerClimber_Axis_One)) < 0.05 ? 0 : RobotContainer.joyC.getRawAxis(OIConstants.OIJoyC.innerClimber_Axis_One))));
+        new InnerClimberCommand(this.innerClimberSubsystem,
+            () -> getThresholledAxis(RobotContainer.joyC, OIConstants.OIJoyC.innerClimber_Axis_One, 0.2)));
 
     // Climber - Outer
     this.outerClimberSubsystem.setDefaultCommand(
-    new OuterClimberCommand(this.outerClimberSubsystem,
-    () ->
-    (Math.abs(RobotContainer.joyC.getRawAxis(OIConstants.OIJoyC.outerClimber_Axis_Five)) < 0.05 ? 0 : RobotContainer.joyC.getRawAxis(OIConstants.OIJoyC.outerClimber_Axis_Five))));
+        new OuterClimberCommand(this.outerClimberSubsystem,
+            () -> getThresholledAxis(RobotContainer.joyC, OIConstants.OIJoyC.outerClimber_Axis_Five, 0.2)));
 
   }
 
@@ -167,6 +159,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    * 
    */
+
+  public double getThresholledAxis(Joystick joy, int axisNumber, double threshold) {
+    return (Math.abs(joy.getRawAxis(axisNumber)) < threshold ? 0
+        : joy.getRawAxis(axisNumber));
+  }
+
   private void configureButtonBindings() {
     // Feeder Button Integration
     // new JoystickButton(RobotContainer.joyD, OIConstants.feeder_X_ButtonNumber)
@@ -177,14 +175,14 @@ public class RobotContainer {
         .toggleWhenActive(new IntakeCommand(this.intakeSubsystem)); // X
     new JoystickButton(RobotContainer.joyD, 1)
         .toggleWhenActive(new ReverseCommand(this.intakeSubsystem, this.feederSubsystem)); // A
-  
+
     // Feeder Button
-    new JoystickButton(RobotContainer.joyD,2)
+    new JoystickButton(RobotContainer.joyD, 2)
         .toggleWhenActive(new FeederCommand(this.feederSubsystem)); // B
-    
+
     // Feeder Servo Button
-    new JoystickButton(RobotContainer.joyD,4)
-        .toggleWhenActive(new servoCommand(this.servoFeederSubsystem)); // Y
+    new JoystickButton(RobotContainer.joyD, 4)
+        .toggleWhenActive(new ServoFeederCommand(this.servoFeederSubsystem)); // Y
 
     // Shooter Button Binding Integration [by Time] => Works
     // new JoystickButton(RobotContainer.joyD, OIConstants.shooter_RB_ButtonNumber)
@@ -192,42 +190,46 @@ public class RobotContainer {
 
     // Shooter Button Binding Integration
     new JoystickButton(RobotContainer.joyD, 6)
-    .toggleWhenActive(new ShooterCommand(this.shooterSubsystem));
+        .toggleWhenActive(new ShooterCommand(this.shooterSubsystem));
 
     // PG Stopper Button Binding Integration - Inner
     new JoystickButton(RobotContainer.joyC,
-    OIConstants.OIJoyC.innerPGStop_Button_Two)
-    .whenPressed(new InnerPGClimberStopCommand(this.innerPGSubsystem,
-    this.innerPGSubsystem.getInnerPGPosition(),
-    () -> dpadButtonRight()));
+        OIConstants.OIJoyC.innerPGStop_Button_Two)
+        .whenPressed(new InnerPGClimberStopCommand(this.innerPGSubsystem,
+            this.innerPGSubsystem.getInnerPGPosition(),
+            () -> dpadButtonRight()));
 
     // PG Stopper Button Binding Integration - Outer
     new JoystickButton(RobotContainer.joyC,
-    OIConstants.OIJoyC.outerPGStop_Button_Three)
-    .whenPressed(new OuterPGClimberStopCommand(this.outerPGSubsystem,
-    this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonLeft()));
+        OIConstants.OIJoyC.outerPGStop_Button_Three)
+        .whenPressed(new OuterPGClimberStopCommand(this.outerPGSubsystem,
+            this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonLeft()));
 
+    // Test Autonomous Sequence
     new JoystickButton(RobotContainer.joyD, 7)
         .whenPressed(
-          new SequentialCommandGroup(
-            new ParallelRaceGroup(new AutonomousIntakeCommand(this.intakeSubsystem),  
-          
-            new DriveToACoordinateCommand(this.driveSubsystem, 1.5, 0)),
-            new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
-            new DriveBySecondCoordinateCommand(this.driveSubsystem, 167),
-            new DriveBySecondCoordinateCommand(this.driveSubsystem, 9),
-            new DriveToACoordinateCommand(this.driveSubsystem, 3, -0.94),
-            new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
-            new DriveBySecondCoordinateCommand(this.driveSubsystem, 167)
-          )
-        );
+            new SequentialCommandGroup(
+                new ParallelRaceGroup(new AutonomousIntakeCommand(this.intakeSubsystem),
 
+                    new DriveToACoordinateCommand(this.driveSubsystem, 1.5, 0)),
+                new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
+                new DriveBySecondCoordinateCommand(this.driveSubsystem, 167),
+                new DriveBySecondCoordinateCommand(this.driveSubsystem, 9),
+                new DriveToACoordinateCommand(this.driveSubsystem, 3, -0.94),
+                new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
+                new DriveBySecondCoordinateCommand(this.driveSubsystem, 167)));
+
+    // Test Autonomous Angle Movement
     new JoystickButton(RobotContainer.joyD, 8)
         .whenPressed(new DriveBySecondCoordinateCommand(this.driveSubsystem, 167));
-  }
 
-  private int getRawAxis(int i) {
-    return 0;
+    // Climber Body Horizontal Alignment - Inner
+    new JoystickButton(RobotContainer.joyC, 1)
+        .whenPressed(new InnerClimberHorizontalAlignmentCommand(this.innerClimberSubsystem));
+
+    // Climber Body Horizontal Alignment - Outer
+    new JoystickButton(RobotContainer.joyC, 4)
+        .whenPressed(new OuterClimberHorizontalAlignmentCommand(this.outerClimberSubsystem));
   }
 
   /**
@@ -238,7 +240,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // return new AutonomousDriveRoutineGroupCommand(this.driveSubsystem);
-    return new AutonomousTurnByAngleCommand(this.driveSubsystem, 100);
+    return new InnerClimberHorizontalAlignmentCommand(innerClimberSubsystem);
   }
 
   public static boolean getTarget() {

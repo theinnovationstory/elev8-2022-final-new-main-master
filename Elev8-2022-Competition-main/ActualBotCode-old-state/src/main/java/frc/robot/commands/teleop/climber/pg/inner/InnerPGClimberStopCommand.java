@@ -18,6 +18,7 @@ public class InnerPGClimberStopCommand extends CommandBase {
   private double basePoint;
   private Supplier<Boolean> endMove;
   private final PIDController innerHolding;
+  // private double
 
   /** Creates a new InnerPGClimberStopCommand. */
   public InnerPGClimberStopCommand(InnerPGSubsystem innerPGSubsystem, double basePoint, Supplier<Boolean> endMove) {
@@ -42,10 +43,12 @@ public class InnerPGClimberStopCommand extends CommandBase {
     double speed = MathUtil.clamp(this.innerHolding.calculate(
         this.innerPGSubsystem.getInnerPGPosition(),
         this.basePoint),
-        -0.75, 0.75);
+        -0.9, 0.9);
 
+    // double speedChange = (0.6 * speed + 0.4 * oldSpeed);
+    SmartDashboard.putNumber("Current Inner Speed", speed);
     SmartDashboard.putNumber("Current Inner Position", this.innerPGSubsystem.getInnerPGPosition());
-    SmartDashboard.putBoolean("Inner Stopped?", endMove.get());
+    SmartDashboard.putBoolean("Inner Stopped?", !endMove.get());
 
     this.innerPGSubsystem.setPGInnerPIDSpeed(speed);
   }

@@ -5,15 +5,19 @@
 package frc.robot.subsystems.climber.inner;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxRelativeEncoder;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DrivingConstants;
 import frc.robot.Constants.ClimberConstants.InnerClimberConstants;
 
 public class InnerClimberSubsystem extends SubsystemBase {
   private final CANSparkMax in_LC, in_RC;
+  private final RelativeEncoder in_LC_encoder, in_RC_encoder;
   private final MotorControllerGroup in_C;
 
   /** Creates a new InnerClimberSubsystem. */
@@ -22,6 +26,10 @@ public class InnerClimberSubsystem extends SubsystemBase {
     this.in_RC = new CANSparkMax(32, MotorType.kBrushless);
     this.in_LC.setInverted(false);
     this.in_RC.setInverted(true);
+    this.in_LC_encoder = this.in_LC.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
+        DrivingConstants.neoCountsPerRevolution);
+    this.in_RC_encoder = this.in_RC.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,
+        DrivingConstants.neoCountsPerRevolution);
     this.in_LC.setIdleMode(IdleMode.kBrake);
     this.in_RC.setIdleMode(IdleMode.kBrake);
 
@@ -45,5 +53,23 @@ public class InnerClimberSubsystem extends SubsystemBase {
 
   public void setInnerSpeed(double outers) {
     this.in_C.set(outers * InnerClimberConstants.speedMultiplier);
+  }
+
+  public void setLeft_IC_BasePosition() {
+    this.in_LC_encoder.setPosition(0.0);
+    this.in_RC_encoder.setPosition(0.0);
+  }
+
+  public double getLeft_IC_Position() {
+    return this.in_LC_encoder.getPosition();
+  }
+
+  public double getLeft_RC_Position() {
+    return this.in_RC_encoder.getPosition();
+  }
+
+  public void setSpeed(double[] speeds) {
+    this.in_LC.set(speeds[0]);
+    this.in_RC.set(speeds[1]);
   }
 }

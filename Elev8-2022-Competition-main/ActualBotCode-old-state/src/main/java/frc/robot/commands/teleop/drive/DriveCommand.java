@@ -45,7 +45,6 @@ public class DriveCommand extends CommandBase {
 
     SmartDashboard.putNumber("D Idhar Dekh : GYRO", DriveSubsystem.navx.getAngle());
     SmartDashboard.putNumber("D Idhar Dekh : POSE", this.driveSubsystem.getPoseAngle());
-    SmartDashboard.putNumber("D Idhar Dekh : OFFSET", RobotContainer.GYRO_OFFSET);
 
     this.driveSubsystem.arcadeInbuilt(speed, turn);
   }

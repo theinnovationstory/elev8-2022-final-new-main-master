@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.RobotContainer;
 import frc.robot.Constants.DrivingConstants;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -65,7 +64,6 @@ public class DriveSubsystem extends SubsystemBase {
         DrivingConstants.neoCountsPerRevolution);
     this.rightSide = new MotorControllerGroup(this.FR, this.BR);
     this.rightSide.setInverted(true);
-    
 
     this.FL = new CANSparkMax(DrivingConstants.FL_ID, MotorType.kBrushless);
     this.BL = new CANSparkMax(DrivingConstants.BL_ID, MotorType.kBrushless);
@@ -98,18 +96,23 @@ public class DriveSubsystem extends SubsystemBase {
     this.BL_encoder.setPosition(0.0);
   }
 
+  public static double getNavxRoll() {
+    return DriveSubsystem.navx.getPitch();
+  }
+
   @Override
   public void periodic() {
     this.pose = m_odometry.update(Rotation2d.fromDegrees(-DriveSubsystem.navx.getAngle()),
         (FL_encoder.getPosition() * Math.PI * Units.inchesToMeters(6)) / 10.71,
-        (-1*FR_encoder.getPosition() * Math.PI * Units.inchesToMeters(6)) / 10.71);
+        (-1 * FR_encoder.getPosition() * Math.PI * Units.inchesToMeters(6)) / 10.71);
     // This method will be called once per scheduler run
 
     SmartDashboard.putNumber("Idhar Dekh : GYRO", DriveSubsystem.navx.getAngle());
     SmartDashboard.putNumber("Idhar Dekh : POSE", this.pose.getRotation().getDegrees());
-    SmartDashboard.putNumber("Idhar Dekh : OFFSET", RobotContainer.GYRO_OFFSET);
     SmartDashboard.putNumber("ecnx", pose.getX());
     SmartDashboard.putNumber("ency", pose.getY());
+
+    SmartDashboard.putNumber("PITCH", DriveSubsystem.getNavxRoll());
   }
 
   public double getPoseAngle() {
@@ -134,7 +137,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void arcadeInbuilt(final double y, final double z) {
     // System.out.println("Speed: " + y + " " + z);
-    //this.rightSide.setInverted(false);
+    // this.rightSide.setInverted(false);
 
     this.driveTrain.arcadeDrive(y * DrivingConstants.kMaxSpeed, z * DrivingConstants.kMaxAngularSpeed);
   }
@@ -264,11 +267,10 @@ public class DriveSubsystem extends SubsystemBase {
   public double getB_Ypose() {
     return b_botYpose;
   }
+
   public double get_angle() {
     return angle;
   }
-
-  
 
   public void setSpeeds(double[] speeds) {
     this.leftSide.set(speeds[0]);

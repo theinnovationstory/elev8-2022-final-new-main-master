@@ -2,26 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auto.feeder;
+package frc.robot.commands.teleop.feeder;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.FeederConstants;
-import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.ServoFeederSubsystem;
 
-public class AutonomousFeederCommand extends CommandBase {
-  private FeederSubsystem feederSubsystem;
+public class ServoFeederCommand extends CommandBase {
 
-  /** Creates a new AutonomousFeederCommand. */
-  public AutonomousFeederCommand(FeederSubsystem feederSubsystem) {
-    this.feederSubsystem = feederSubsystem;
+  private ServoFeederSubsystem servoFeederSubsystem;
+
+  /** Creates a new ServoFeederCommand. */
+  public ServoFeederCommand(ServoFeederSubsystem servoFeederSubsystem) {
+    this.servoFeederSubsystem = servoFeederSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.feederSubsystem);
+    addRequirements(this.servoFeederSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.feederSubsystem.setFeederSpeed(FeederConstants.feederSpeed);
+    this.servoFeederSubsystem.setServoSpeed(FeederConstants.positionAngle);
+    SmartDashboard.putBoolean("Servo up?", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +35,8 @@ public class AutonomousFeederCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    this.feederSubsystem.stopFeeder();
+    this.servoFeederSubsystem.setServoSpeed(FeederConstants.initialAngle);
+    SmartDashboard.putBoolean("Servo up?", false);
   }
 
   // Returns true when the command should end.

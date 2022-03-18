@@ -11,7 +11,7 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveBySecondCoordinateCommand extends CommandBase {
   private DriveSubsystem driveSubsystem;
-  private double x, y, angletocorrect, start_time, prev_time_enc_check;
+  private double angletocorrect, start_time;
   double lasttimestamp = 0;
 
   /** Creates a new DriveBySecondCoordinateCommand. */
@@ -26,7 +26,6 @@ public class DriveBySecondCoordinateCommand extends CommandBase {
   @Override
   public void initialize() {
     start_time = Timer.getFPGATimestamp();
-    prev_time_enc_check = lasttimestamp;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

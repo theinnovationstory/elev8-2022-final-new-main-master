@@ -142,10 +142,10 @@ public final class Constants {
             public static final int innerPGConstants = 4;
             public static final int outerPGConstants = 6;
             public static final double speedMultiplier = 0.8;
-            public static final double kPInner = 0.097;
+            public static final double kPInner = 0.1;
             public static final double kIInner = 0;
             public static final double kDInner = 0;
-            public static final double kPOuter = 0.07;
+            public static final double kPOuter = 0.085;
             public static final double kIOuter = 0;
             public static final double kDOuter = 0;
             public static final double deadband = 0.05;

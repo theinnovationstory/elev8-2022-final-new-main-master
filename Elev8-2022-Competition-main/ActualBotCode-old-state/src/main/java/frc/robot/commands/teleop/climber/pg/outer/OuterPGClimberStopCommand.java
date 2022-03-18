@@ -18,6 +18,7 @@ public class OuterPGClimberStopCommand extends CommandBase {
   private double basePoint;
   private Supplier<Boolean> endMove;
   private final PIDController outerHolding;
+
   /** Creates a new OuterPGClimberStopCommand. */
   public OuterPGClimberStopCommand(OuterPGSubsystem outerPGSubsystem, double basePoint, Supplier<Boolean> endMove) {
     this.outerPGSubsystem = outerPGSubsystem;
@@ -32,7 +33,8 @@ public class OuterPGClimberStopCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -41,9 +43,9 @@ public class OuterPGClimberStopCommand extends CommandBase {
         this.outerPGSubsystem.getOuterPGPosition(),
         this.basePoint),
         -0.75, 0.75);
-
+    SmartDashboard.putNumber("Current Outer Speed", speed);
     SmartDashboard.putNumber("Current Outer Position", this.outerPGSubsystem.getOuterPGPosition());
-    SmartDashboard.putBoolean("Outer Stopped?", endMove.get());
+    SmartDashboard.putBoolean("Outer Stopped?", !endMove.get());
 
     this.outerPGSubsystem.setPGOuterPIDSpeed(speed);
   }
