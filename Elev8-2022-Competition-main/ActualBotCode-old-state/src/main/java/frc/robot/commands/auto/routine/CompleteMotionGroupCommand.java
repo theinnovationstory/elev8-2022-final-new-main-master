@@ -7,6 +7,7 @@ package frc.robot.commands.auto.routine;
 // import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.auto.drive.tester.DriveBySecondCoordinateCommand;
 import frc.robot.commands.auto.drive.tester.DriveToACoordinateCommand;
 import frc.robot.commands.auto.feeder.AutonomousFeederCommand;
@@ -22,7 +23,7 @@ public class CompleteMotionGroupCommand extends SequentialCommandGroup {
   public double FIRST_X = 1.5; // 1.5
   public double FIRST_Y = 0.0;
   public double SECOND_X = 0.0;
-  public double SECOND_Y = -0.5;
+  public double SECOND_Y = 0;
   public double ANGLE_SECOND = 180;
 
   /** Creates a new CompleteMotionGroupCommand. */
@@ -31,6 +32,8 @@ public class CompleteMotionGroupCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new DriveToACoordinateCommand(driveSubsystem, FIRST_X, FIRST_Y));
+    addCommands(new WaitCommand(0.75));
+    addCommands(new DriveBySecondCoordinateCommand(driveSubsystem, ANGLE_SECOND));
     addCommands(new DriveToACoordinateCommand(driveSubsystem, SECOND_X, SECOND_Y));
     addCommands(new DriveBySecondCoordinateCommand(driveSubsystem, ANGLE_SECOND));
     addCommands(new AutonomousFeederCommand(feederSubsystem));

@@ -14,6 +14,7 @@ public class ReverseCommand extends CommandBase {
   /** Creates a new ReverseIntakeCommand. */
   private IntakeSubsystem intakeSubsystem;
   private FeederSubsystem feederSubsystem;
+
   public ReverseCommand(IntakeSubsystem intakeSubsystem, FeederSubsystem feederSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
     this.feederSubsystem = feederSubsystem;
@@ -30,7 +31,8 @@ public class ReverseCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -42,6 +44,6 @@ public class ReverseCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !RobotContainer.joyD.getRawButton(1);
+    return !RobotContainer.joyD.getRawButton(7);
   }
 }

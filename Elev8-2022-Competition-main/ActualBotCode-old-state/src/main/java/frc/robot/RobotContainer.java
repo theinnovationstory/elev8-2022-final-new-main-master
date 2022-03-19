@@ -228,8 +228,8 @@ public class RobotContainer {
     // new DriveBySecondCoordinateCommand(this.driveSubsystem, 167)));
 
     // Test Autonomous Angle Movement
-    new JoystickButton(RobotContainer.joyD, 5)
-        .whenPressed(new DriveToACoordinateCommand(this.driveSubsystem, 0.5, 0));
+    // new JoystickButton(RobotContainer.joyD, 5)
+    //     .whenPressed(new DriveBySecondCoordinateCommand(this.driveSubsystem,30));
 
     // Climber Body Horizontal Alignment - Inner
     // new JoystickButton(RobotContainer.joyC, 1)
@@ -304,4 +304,9 @@ public class RobotContainer {
   public boolean dpadButtonDown() {
     return (RobotContainer.joyC.getPOV() >= 135 && RobotContainer.joyC.getPOV() <= 225);
   }
+
+  // public boolean dpadButtonUp_M() {
+  //   return (RobotContainer.joyC.getPOV() >= 315 && RobotContainer.joyC.getPOV() < 360)
+  //       || (RobotContainer.joyC.getPOV() >= 0 && RobotContainer.joyC.getPOV() <= 45);
+  // }
 }

@@ -85,7 +85,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     this.controller = new PIDController(0.6, 0, 0.00000);
     this.controllerang = new PIDController(0.016, 0, 0.009);
-    this.controllerangle = new PIDController(0.07, 0, 0);
+    this.controllerangle = new PIDController(0.025, 0, 0.0025);
 
     this.x = new double[] { 2 };
     this.y = new double[] { 0 };

@@ -17,9 +17,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonomousRoutineCommand extends ParallelCommandGroup {
   /** Creates a new AutonomousRoutineCommand. */
-  public AutonomousRoutineCommand(ShooterSubsystem shooterSubsystem, FeederSubsystem feederSubsystem, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
+  public AutonomousRoutineCommand(ShooterSubsystem shooterSubsystem, FeederSubsystem feederSubsystem,
+      DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+
     addCommands(new AutonomousShooterCommand(shooterSubsystem));
 
     addCommands(new AutonomousIntakeCommand(intakeSubsystem));

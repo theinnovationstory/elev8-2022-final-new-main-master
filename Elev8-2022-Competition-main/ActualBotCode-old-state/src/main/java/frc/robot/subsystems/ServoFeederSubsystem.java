@@ -17,7 +17,7 @@ public class ServoFeederSubsystem extends SubsystemBase {
   /** Creates a new ServoFeederSubsystem. */
   public ServoFeederSubsystem() {
     this.stopper = new Servo(FeederConstants.servo_port);
-    this.stopper.setAngle(FeederConstants.initialAngle);
+    this.stopper.setAngle(FeederConstants.positionAngle);
   }
 
   @Override
