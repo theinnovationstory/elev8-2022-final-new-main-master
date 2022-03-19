@@ -20,16 +20,16 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
     public final static class DrivingConstants {
-        public static final double sexyMaxSpeed = 0.55;
+        public static final double sexyMaxSpeed = 0.53;
 
         public static final int neoCountsPerRevolution = 42;
-        public static final int FL_ID = 11;//21; // 11
-        public static final int BL_ID = 12;//22; // 12
-        public static final int FR_ID = 21;//11; // 21
-        public static final int BR_ID = 22;//12; // 22
+        public static final int FL_ID = 11;// 21; // 11
+        public static final int BL_ID = 12;// 22; // 12
+        public static final int FR_ID = 21;// 11; // 21
+        public static final int BR_ID = 22;// 12; // 22
         public static final double kWheelRadius = Units.inchesToMeters(6);
-        public static final double kMaxSpeed = 0.6; // multiplier for distance movement
-        public static final double kMaxAngularSpeed = 0.8; // multiplier for angular movement
+        public static final double kMaxSpeed = 0.7; // multiplier for distance movement
+        public static final double kMaxAngularSpeed = 0.7; // multiplier for angular movement
 
         public static final double kTrackWidth = 0.61; // meters
         public static final double kP = 5;
@@ -84,7 +84,7 @@ public final class Constants {
         public static final int intake_ID = 1;
         public static final double deadband = 0.05;
         public static final double stopSpeed = 0;
-        public static final double flowSpeed = -0.55;
+        public static final double flowSpeed = -0.3;
     }
 
     public final static class VisionConstants {
@@ -112,7 +112,7 @@ public final class Constants {
         public static final double feederSpeed = 0.4;
         public static final int servo_port = 0;
         public static final double initialAngle = 0;
-        public static final double positionAngle = 60;
+        public static final double positionAngle = 58;
     }
 
     public final static class ShooterConstants {
@@ -130,6 +130,7 @@ public final class Constants {
         public static final double deadbandVelocity = 500;
         public static double setThisVelocity = 2550;
     }
+
     public final static class ClimberConstants {
 
         public static final int falcon_ID = 6;
@@ -142,10 +143,10 @@ public final class Constants {
             public static final int innerPGConstants = 4;
             public static final int outerPGConstants = 6;
             public static final double speedMultiplier = 0.8;
-            public static final double kPInner = 0.1;
+            public static final double kPInner = 0.15;
             public static final double kIInner = 0;
             public static final double kDInner = 0;
-            public static final double kPOuter = 0.085;
+            public static final double kPOuter = 0.15;
             public static final double kIOuter = 0;
             public static final double kDOuter = 0;
             public static final double deadband = 0.05;

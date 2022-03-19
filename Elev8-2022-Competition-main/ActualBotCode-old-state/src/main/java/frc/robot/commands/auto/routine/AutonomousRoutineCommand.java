@@ -5,7 +5,11 @@
 package frc.robot.commands.auto.routine;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.auto.intake.AutonomousIntakeCommand;
 import frc.robot.commands.auto.shooter.AutonomousShooterCommand;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -13,11 +17,13 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonomousRoutineCommand extends ParallelCommandGroup {
   /** Creates a new AutonomousRoutineCommand. */
-  public AutonomousRoutineCommand(ShooterSubsystem shooterSubsystem) {
+  public AutonomousRoutineCommand(ShooterSubsystem shooterSubsystem, FeederSubsystem feederSubsystem, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new AutonomousShooterCommand(shooterSubsystem));
 
-    // addCommands(new CompleteMotionGroupCommand());
+    addCommands(new AutonomousIntakeCommand(intakeSubsystem));
+
+    addCommands(new CompleteMotionGroupCommand(feederSubsystem, driveSubsystem, intakeSubsystem));
   }
 }

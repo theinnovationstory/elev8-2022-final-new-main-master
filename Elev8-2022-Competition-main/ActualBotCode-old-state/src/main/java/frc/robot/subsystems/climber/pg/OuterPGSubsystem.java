@@ -22,7 +22,7 @@ public class OuterPGSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("PG Bahar R", this.outer_pg.get());
+    // SmartDashboard.putNumber("PG Bahar R", this.outer_pg.get());
     // SmartDashboard.putNumber("pg bahar speed", outer_pg.get);
     // This method will be called once per scheduler run
   }

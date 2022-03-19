@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class servoCommand extends CommandBase {
   /** Creates a new servoCommand. */
-
+  private boolean servo_temp = true;
   ServoFeederSubsystem servoFeederSubsystem;
 
   public servoCommand(ServoFeederSubsystem servoFeederSubsystem) {
@@ -24,20 +24,30 @@ public class servoCommand extends CommandBase {
   @Override
   public void initialize() {
     this.servoFeederSubsystem.setServoSpeed(FeederConstants.positionAngle);
-    SmartDashboard.putBoolean("Servo up?", true);
+    SmartDashboard.putBoolean("Servo up?", servo_temp);
+
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("servoreading", servoFeederSubsystem.getPosition());
+    // if (servoFeederSubsystem.getPosition() == 0) {
+    // SmartDashboard.putBoolean("Servo up?", false);
+    // } else {
+    
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     this.servoFeederSubsystem.setServoSpeed(FeederConstants.initialAngle);
-    SmartDashboard.putBoolean("Servo up?", false);
+    servo_temp = false;
+    SmartDashboard.putBoolean("s?", servo_temp);
+    // SmartDashboard.putBoolean("Servo up?", false);
+
   }
 
   // Returns true when the command should end.

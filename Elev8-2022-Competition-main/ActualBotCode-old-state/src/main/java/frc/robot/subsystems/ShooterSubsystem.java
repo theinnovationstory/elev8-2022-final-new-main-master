@@ -38,12 +38,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("RPM", ShooterSubsystem.shootEncoder.getVelocity());
+    // SmartDashboard.putNumber("RPM", ShooterSubsystem.shootEncoder.getVelocity());
     // This method will be called once per scheduler run
   }
 
   public void shootReference(double rpm) {
-    SmartDashboard.putNumber("RPM", rpm);
+    // SmartDashboard.putNumber("RPM", rpm);
     this.shootPIDController.setReference(rpm, CANSparkMax.ControlType.kVelocity);
   }
 
@@ -62,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
       this.shootPIDController.setReference(ShooterConstants.setThisVelocity, CANSparkMax.ControlType.kVelocity);
       // SmartDashboard.putNumber("POSITION",
       // ShooterSubsystem.shootEncoder.getPosition());
-      SmartDashboard.putNumber("VELOCITY", ShooterSubsystem.shootEncoder.getPosition());
+      // SmartDashboard.putNumber("VELOCITY", ShooterSubsystem.shootEncoder.getPosition());
     } else
       this.shooter.set(0);
   }

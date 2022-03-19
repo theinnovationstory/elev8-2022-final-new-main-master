@@ -27,7 +27,7 @@ public class FeederSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Current Servo Speed", feeder.get());
+    // SmartDashboard.putNumber("Current Servo Speed", feeder.get());
   }
 
   public void stopFeeder() {

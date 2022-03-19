@@ -39,13 +39,13 @@ public class DriveBySecondCoordinateCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // this.driveSubsystem.setSpeeds(new double[] { 0, 0 });
+    this.driveSubsystem.setSpeeds(new double[] { 0, 0 });
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return lasttimestamp > 0.75;
+    return lasttimestamp > 2;
     // return false;
   }
 }

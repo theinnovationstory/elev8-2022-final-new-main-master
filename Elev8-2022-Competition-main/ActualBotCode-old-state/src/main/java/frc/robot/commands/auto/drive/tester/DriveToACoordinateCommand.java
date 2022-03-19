@@ -26,7 +26,6 @@ public class DriveToACoordinateCommand extends CommandBase {
     // this.intakeSubsystem.setIntakeSpeed(IntakeConstants.flowSpeed);
     // this.shooterSubsystem.setSpeed();
 
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.

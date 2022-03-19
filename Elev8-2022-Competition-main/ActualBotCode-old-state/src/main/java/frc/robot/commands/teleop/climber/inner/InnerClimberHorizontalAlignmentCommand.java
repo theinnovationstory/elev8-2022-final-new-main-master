@@ -37,11 +37,11 @@ public class InnerClimberHorizontalAlignmentCommand extends CommandBase {
     double speed = MathUtil.clamp(this.innerHorizontal.calculate(DriveSubsystem.getNavxRoll(), 0.0), -0.8, 0.8);
     double speedChange = (0.6 * speed + 0.4 * oldSpeed);
     this.innerClimberSubsystem.setSpeed(new double[] { -speedChange, speedChange });
-    SmartDashboard.putBoolean("INNER CLIMBER HORIZONTAL", (DriveSubsystem.getNavxRoll() > 5));
+    // SmartDashboard.putBoolean("INNER CLIMBER HORIZONTAL", (DriveSubsystem.getNavxRoll() > 5));
     oldSpeed = speedChange;
 
-    SmartDashboard.putNumber("InnerKI", speed);
-    SmartDashboard.putNumber("MKC_INNER", DriveSubsystem.getNavxRoll());
+    // SmartDashboard.putNumber("InnerKI", speed);
+    // SmartDashboard.putNumber("MKC_INNER", DriveSubsystem.getNavxRoll());
   }
 
   // Called once the command ends or is interrupted.

@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Intake Speed", this.intaker.get());
+    // SmartDashboard.putNumber("Intake Speed", this.intaker.get());
     // This method will be called once per scheduler run
   }
 

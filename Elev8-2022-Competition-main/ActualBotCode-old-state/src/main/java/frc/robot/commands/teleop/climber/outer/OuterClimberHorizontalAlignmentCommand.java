@@ -37,11 +37,11 @@ public class OuterClimberHorizontalAlignmentCommand extends CommandBase {
     double speed = MathUtil.clamp(this.outerHorizontal.calculate(DriveSubsystem.getNavxRoll(), 0.0), -0.5, 0.5);
     double speedChange = (0.1 * speed + 0.9 * oldSpeed);
     this.outerClimberSubsystem.setSpeed(new double[] { -speedChange, speedChange });
-    SmartDashboard.putBoolean("OUTER CLIMBER HORIZONTAL", (DriveSubsystem.getNavxRoll() > 5));
+    // SmartDashboard.putBoolean("OUTER CLIMBER HORIZONTAL", (DriveSubsystem.getNavxRoll() > 5));
     oldSpeed = speedChange;
 
-    SmartDashboard.putNumber("OuterKI", speed);
-    SmartDashboard.putNumber("MKC_OUTER", DriveSubsystem.getNavxRoll());
+    // SmartDashboard.putNumber("OuterKI", speed);
+    // SmartDashboard.putNumber("MKC_OUTER", DriveSubsystem.getNavxRoll());
   }
 
   // Called once the command ends or is interrupted.

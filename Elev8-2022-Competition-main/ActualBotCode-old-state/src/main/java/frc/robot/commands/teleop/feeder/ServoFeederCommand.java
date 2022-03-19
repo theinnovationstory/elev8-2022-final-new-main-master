@@ -12,6 +12,7 @@ import frc.robot.subsystems.ServoFeederSubsystem;
 public class ServoFeederCommand extends CommandBase {
 
   private ServoFeederSubsystem servoFeederSubsystem;
+  // private boolean servo_temp = false;
 
   /** Creates a new ServoFeederCommand. */
   public ServoFeederCommand(ServoFeederSubsystem servoFeederSubsystem) {
@@ -24,19 +25,23 @@ public class ServoFeederCommand extends CommandBase {
   @Override
   public void initialize() {
     this.servoFeederSubsystem.setServoSpeed(FeederConstants.positionAngle);
-    SmartDashboard.putBoolean("Servo up?", true);
+    // servo_temp = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // SmartDashboard.putBoolean("Ser?", servo_temp);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     this.servoFeederSubsystem.setServoSpeed(FeederConstants.initialAngle);
-    SmartDashboard.putBoolean("Servo up?", false);
+    // SmartDashboard.putBoolean("Servo up?", false);
+    // servo_temp = false;
+    // SmartDashboard.putBoolean("Ser?", servo_temp);
   }
 
   // Returns true when the command should end.

@@ -22,8 +22,8 @@ public class InnerPGSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("PG Andar L", this.inner_pg.get());
-    SmartDashboard.putNumber("pg andar speed", inner_pg.getSupplyCurrent());
+    // SmartDashboard.putNumber("PG Andar L", this.inner_pg.get());
+    // SmartDashboard.putNumber("pg andar speed", inner_pg.getSupplyCurrent());
     // This method will be called once per scheduler run
   }
 

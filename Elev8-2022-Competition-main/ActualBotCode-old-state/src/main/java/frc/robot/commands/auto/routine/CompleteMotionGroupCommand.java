@@ -5,30 +5,35 @@
 package frc.robot.commands.auto.routine;
 
 // import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+// import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.auto.drive.tester.DriveBySecondCoordinateCommand;
 import frc.robot.commands.auto.drive.tester.DriveToACoordinateCommand;
-import frc.robot.commands.auto.intake.AutonomousIntakeCommand;
+import frc.robot.commands.auto.feeder.AutonomousFeederCommand;
+// import frc.robot.commands.auto.intake.AutonomousIntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CompleteMotionGroupCommand extends SequentialCommandGroup {
-  public double FIRST_X = 1.5;
+  public double FIRST_X = 1.5; // 1.5
   public double FIRST_Y = 0.0;
-  public double ANGLE_SECOND = 154;
+  public double SECOND_X = 0.0;
+  public double SECOND_Y = -0.5;
+  public double ANGLE_SECOND = 180;
 
   /** Creates a new CompleteMotionGroupCommand. */
-  public CompleteMotionGroupCommand(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
+  public CompleteMotionGroupCommand(FeederSubsystem feederSubsystem, DriveSubsystem driveSubsystem,
+      IntakeSubsystem intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ParallelRaceGroup(
-        new DriveToACoordinateCommand(driveSubsystem, FIRST_X, FIRST_Y),
-        new AutonomousIntakeCommand(intakeSubsystem)));
+    addCommands(new DriveToACoordinateCommand(driveSubsystem, FIRST_X, FIRST_Y));
+    addCommands(new DriveToACoordinateCommand(driveSubsystem, SECOND_X, SECOND_Y));
+    addCommands(new DriveBySecondCoordinateCommand(driveSubsystem, ANGLE_SECOND));
+    addCommands(new AutonomousFeederCommand(feederSubsystem));
 
-    addCommands(new DriveBySecondCoordinateCommand(driveSubsystem, 154));
   }
 }

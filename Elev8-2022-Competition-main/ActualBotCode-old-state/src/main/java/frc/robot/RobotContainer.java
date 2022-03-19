@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.auto.intake.AutonomousIntakeCommand;
+import frc.robot.commands.auto.routine.AutonomousRoutineCommand;
+import frc.robot.commands.auto.shooter.AutonomousShooterCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -28,8 +30,12 @@ import frc.robot.commands.auto.drive.tester.DriveToACoordinateCommand;
 // import frc.robot.commands.auto.shooter.ShooterByTimeCommand;
 import frc.robot.commands.teleop.climber.inner.InnerClimberCommand;
 import frc.robot.commands.teleop.climber.inner.InnerClimberHorizontalAlignmentCommand;
+import frc.robot.commands.teleop.climber.inner.InnerClimberLeftTiltCommand;
+import frc.robot.commands.teleop.climber.inner.InnerClimberRightTiltCommand;
 import frc.robot.commands.teleop.climber.outer.OuterClimberCommand;
 import frc.robot.commands.teleop.climber.outer.OuterClimberHorizontalAlignmentCommand;
+import frc.robot.commands.teleop.climber.outer.OuterClimberLeftTiltCommand;
+import frc.robot.commands.teleop.climber.outer.OuterClimberRightTiltCommand;
 import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberCommand;
 import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberStopCommand;
 import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberCommand;
@@ -114,7 +120,7 @@ public class RobotContainer {
     // Drive
     this.driveSubsystem.setDefaultCommand(
         new DriveCommand(this.driveSubsystem, () -> -1 * RobotContainer.joyD.getRawAxis(OIConstants.kJoyDSpeedAxis),
-            () -> RobotContainer.joyD.getRawAxis(4), this.speedLimit, this.turnLimit));
+            () -> RobotContainer.joyD.getRawAxis(2), this.speedLimit, this.turnLimit));
 
     // Intake
     this.intakeSubsystem.setDefaultCommand(new IntakeStoppingCommand(this.intakeSubsystem));
@@ -171,17 +177,17 @@ public class RobotContainer {
     // .whenActive(new FeederCommand(this.feederSubsystem));
 
     // Intake Forward Button Integration
-    new JoystickButton(RobotContainer.joyC, 11)
+    new JoystickButton(RobotContainer.joyC, 7)
         .toggleWhenActive(new IntakeCommand(this.intakeSubsystem)); // X
-    new JoystickButton(RobotContainer.joyD, 1)
+    new JoystickButton(RobotContainer.joyD, 7)
         .toggleWhenActive(new ReverseCommand(this.intakeSubsystem, this.feederSubsystem)); // A
 
     // Feeder Button
-    new JoystickButton(RobotContainer.joyD, 2)
+    new JoystickButton(RobotContainer.joyD, 5)
         .toggleWhenActive(new FeederCommand(this.feederSubsystem)); // B
 
     // Feeder Servo Button
-    new JoystickButton(RobotContainer.joyD, 4)
+    new JoystickButton(RobotContainer.joyD, 8)
         .toggleWhenActive(new ServoFeederCommand(this.servoFeederSubsystem)); // Y
 
     // Shooter Button Binding Integration [by Time] => Works
@@ -206,30 +212,48 @@ public class RobotContainer {
             this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonLeft()));
 
     // Test Autonomous Sequence
-    new JoystickButton(RobotContainer.joyD, 7)
-        .whenPressed(
-            new SequentialCommandGroup(
-                new ParallelRaceGroup(new AutonomousIntakeCommand(this.intakeSubsystem),
+    // new JoystickButton(RobotContainer.joyD, 7)
+    // .whenPressed(
+    // new SequentialCommandGroup(
+    // new ParallelRaceGroup(new AutonomousIntakeCommand(this.intakeSubsystem),
+    // new AutonomousShooterCommand(this.shooterSubsystem),new
+    // AutonomousFeederCommand(this.FeederSubsystem)
 
-                    new DriveToACoordinateCommand(this.driveSubsystem, 1.5, 0)),
-                new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
-                new DriveBySecondCoordinateCommand(this.driveSubsystem, 167),
-                new DriveBySecondCoordinateCommand(this.driveSubsystem, 9),
-                new DriveToACoordinateCommand(this.driveSubsystem, 3, -0.94),
-                new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
-                new DriveBySecondCoordinateCommand(this.driveSubsystem, 167)));
+    // new DriveToACoordinateCommand(this.driveSubsystem, 1.5, 0)),
+    // new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
+    // new DriveBySecondCoordinateCommand(this.driveSubsystem, 167),
+    // new DriveBySecondCoordinateCommand(this.driveSubsystem, 9),
+    // new DriveToACoordinateCommand(this.driveSubsystem, 3, -0.94),
+    // new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
+    // new DriveBySecondCoordinateCommand(this.driveSubsystem, 167)));
 
     // Test Autonomous Angle Movement
-    new JoystickButton(RobotContainer.joyD, 8)
-        .whenPressed(new DriveBySecondCoordinateCommand(this.driveSubsystem, 167));
+    new JoystickButton(RobotContainer.joyD, 5)
+        .whenPressed(new DriveToACoordinateCommand(this.driveSubsystem, 0.5, 0));
 
     // Climber Body Horizontal Alignment - Inner
-    new JoystickButton(RobotContainer.joyC, 1)
-        .whenPressed(new InnerClimberHorizontalAlignmentCommand(this.innerClimberSubsystem));
+    // new JoystickButton(RobotContainer.joyC, 1)
+    // .whenPressed(new
+    // InnerClimberHorizontalAlignmentCommand(this.innerClimberSubsystem));
 
     // Climber Body Horizontal Alignment - Outer
     new JoystickButton(RobotContainer.joyC, 4)
         .whenPressed(new OuterClimberHorizontalAlignmentCommand(this.outerClimberSubsystem));
+
+    // Climber Left Tilt - Inner
+    new JoystickButton(RobotContainer.joyD, 3).whenPressed(new InnerClimberLeftTiltCommand(this.innerClimberSubsystem));
+
+    // Climber Right Tilt - Inner
+    new JoystickButton(RobotContainer.joyD, 4)
+        .whenPressed(new InnerClimberRightTiltCommand(this.innerClimberSubsystem));
+
+    // Climber Left Tilt - Outer
+    new JoystickButton(RobotContainer.joyD, 1).whenPressed(new OuterClimberLeftTiltCommand(this.outerClimberSubsystem));
+
+    // Climber Right Tilt - Outer
+    new JoystickButton(RobotContainer.joyD, 2)
+        .whenPressed(new OuterClimberRightTiltCommand(this.outerClimberSubsystem));
+
   }
 
   /**
@@ -240,7 +264,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // return new AutonomousDriveRoutineGroupCommand(this.driveSubsystem);
-    return new InnerClimberHorizontalAlignmentCommand(innerClimberSubsystem);
+    // return new InnerClimberHorizontalAlignmentCommand(innerClimberSubsystem);
+    return new AutonomousRoutineCommand(shooterSubsystem, feederSubsystem, driveSubsystem, intakeSubsystem);
   }
 
   public static boolean getTarget() {
