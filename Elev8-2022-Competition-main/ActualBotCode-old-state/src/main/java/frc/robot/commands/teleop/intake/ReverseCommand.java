@@ -7,8 +7,8 @@ package frc.robot.commands.teleop.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.FeederSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.feeder.FeederSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 
 public class ReverseCommand extends CommandBase {
   /** Creates a new ReverseIntakeCommand. */

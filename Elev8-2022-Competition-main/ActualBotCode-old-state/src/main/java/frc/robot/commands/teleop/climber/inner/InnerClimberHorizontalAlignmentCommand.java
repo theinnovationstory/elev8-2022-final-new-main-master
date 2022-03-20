@@ -7,8 +7,8 @@ package frc.robot.commands.teleop.climber.inner;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.climber.inner.InnerClimberSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class InnerClimberHorizontalAlignmentCommand extends CommandBase {
   private InnerClimberSubsystem innerClimberSubsystem;

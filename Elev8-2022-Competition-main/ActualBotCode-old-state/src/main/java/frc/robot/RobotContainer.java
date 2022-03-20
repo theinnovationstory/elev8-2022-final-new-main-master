@@ -44,18 +44,16 @@ import frc.robot.commands.teleop.intake.IntakeStoppingCommand;
 import frc.robot.commands.teleop.intake.ReverseCommand;
 import frc.robot.commands.teleop.intakestarter.IntakeStartCommand;
 import frc.robot.commands.teleop.shooter.ShooterCommand;
-// import frc.robot.commands.teleop.shooter.ShooterJoyTestCommand;
-// import frc.robot.commands.teleop.shooter.ShooterCommand;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.FeederSubsystem;
-import frc.robot.subsystems.IntakeStarterSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ServoFeederSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.climber.inner.InnerClimberSubsystem;
 import frc.robot.subsystems.climber.outer.OuterClimberSubsystem;
 import frc.robot.subsystems.climber.pg.InnerPGSubsystem;
 import frc.robot.subsystems.climber.pg.OuterPGSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.feeder.FeederSubsystem;
+import frc.robot.subsystems.intake.IntakeStarterSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.servo.ServoFeederSubsystem;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

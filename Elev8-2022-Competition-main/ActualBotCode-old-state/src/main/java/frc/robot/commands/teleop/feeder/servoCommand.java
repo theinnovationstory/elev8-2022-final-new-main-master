@@ -5,8 +5,8 @@
 package frc.robot.commands.teleop.feeder;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ServoFeederSubsystem;
 import frc.robot.Constants.FeederConstants;
+import frc.robot.subsystems.servo.ServoFeederSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class servoCommand extends CommandBase {

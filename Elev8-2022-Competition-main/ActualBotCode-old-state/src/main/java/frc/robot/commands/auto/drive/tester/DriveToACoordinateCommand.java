@@ -5,7 +5,7 @@
 package frc.robot.commands.auto.drive.tester;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
 
 public class DriveToACoordinateCommand extends CommandBase {
   private DriveSubsystem driveSubsystem;

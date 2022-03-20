@@ -6,7 +6,7 @@ package frc.robot.commands.auto.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 
 public class AutonomousIntakeCommand extends CommandBase {
   private IntakeSubsystem intakeSubsystem;
