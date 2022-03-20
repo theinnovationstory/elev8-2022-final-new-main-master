@@ -4,21 +4,22 @@
 
 package frc.robot.commands.auto.drive.tester;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveByThirdCoordinateCommand extends CommandBase {
+public class DriveByAFourthCoordinateCommand extends CommandBase {
   private DriveSubsystem driveSubsystem;
-  public double x, y;
+  private double x, y, distance_from_goal;
   private double start_time;
   double lasttimestamp = 0;
 
-  /** Creates a new DriveByThirdCoordinateCommand. */
-  public DriveByThirdCoordinateCommand(DriveSubsystem driveSubsystem, double x, double y) {
+  /** Creates a new DriveByAFourthCoordinateCommand. */
+  public DriveByAFourthCoordinateCommand(DriveSubsystem driveSubsystem, double x, double y, double distance_from_goal) {
     this.driveSubsystem = driveSubsystem;
     this.x = x;
     this.y = y;
+    this.distance_from_goal = distance_from_goal;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.driveSubsystem);
   }
@@ -26,14 +27,15 @@ public class DriveByThirdCoordinateCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    start_time = Timer.getFPGATimestamp();
+    this.start_time = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     lasttimestamp = Timer.getFPGATimestamp() - start_time;
-    this.driveSubsystem.setSpeeds(this.driveSubsystem.speedcontrolforalign(x, y));
+    this.driveSubsystem
+        .setSpeeds(this.driveSubsystem.speedcontrolforalign_and_distance_correction(x, y, distance_from_goal));
   }
 
   // Called once the command ends or is interrupted.
@@ -45,7 +47,7 @@ public class DriveByThirdCoordinateCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return (Math.abs(this.driveSubsystem.getDTheta()) < 0.5);
+    // return false;
     return lasttimestamp > 1.5;
   }
 }

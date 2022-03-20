@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DrivingConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.commands.auto.drive.tester.DriveByAFourthCoordinateCommand;
 // import frc.robot.Constants.OIConstants.OIJoyC;
 // import frc.robot.commands.auto.drive.AutonomousDriveRoutineGroupCommand;
 // import frc.robot.commands.auto.drive.AutonomousTurnByAngleCommand;
@@ -214,10 +215,18 @@ public class RobotContainer {
         .whenPressed(new OuterPGClimberStopCommand(this.outerPGSubsystem,
             this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonLeft()));
 
-    // Test Autonomous Sequence
+    // Bot Goal Aligning Tool
     new JoystickButton(RobotContainer.joyD, 9)
         .whenPressed(
             new DriveByThirdCoordinateCommand(driveSubsystem, -2.21, 0));
+
+    // Bot Goal - Align A Meter Away
+    new JoystickButton(RobotContainer.joyD, 10)
+        .whenPressed(
+            new DriveByAFourthCoordinateCommand(driveSubsystem, -2.21, 0, 1));
+
+    // Bot Distance aligning tool to the Goal
+
     // new DriveBySecondCoordinateCommand(this.driveSubsystem, 180));
 
     // Test Autonomous Angle Movement
