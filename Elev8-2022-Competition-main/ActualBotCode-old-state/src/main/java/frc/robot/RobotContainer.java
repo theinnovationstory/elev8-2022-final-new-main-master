@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.auto.routine.AutonomousRoutineCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DrivingConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.VisionConstants;
@@ -115,10 +116,6 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Set Default commands
-    // Intake Start
-    this.intakeStarterSubsystem.setDefaultCommand(
-        new IntakeStartCommand(this.intakeStarterSubsystem, () -> dpadButtonUp_JoyD(), () -> dpadButtonDown_JoyD()));
-    ;
 
     // Drive
     this.driveSubsystem.setDefaultCommand(
@@ -178,6 +175,9 @@ public class RobotContainer {
     // Feeder Button Integration
     // new JoystickButton(RobotContainer.joyD, OIConstants.feeder_X_ButtonNumber)
     // .whenActive(new FeederCommand(this.feederSubsystem));
+
+    // Intake Starter Command
+    new Trigger(() -> dpadButtonUp_JoyD()).toggleWhenActive(new IntakeStartCommand(this.intakeStarterSubsystem));
 
     // Intake Forward Button Integration
     new JoystickButton(RobotContainer.joyC, 7)
@@ -293,37 +293,37 @@ public class RobotContainer {
     return ta.getDouble(VisionConstants.defaultAreaValue);
   }
 
-  public boolean dpadButtonRight() {
+  public static boolean dpadButtonRight() {
     return (RobotContainer.joyC.getPOV() >= 45 && RobotContainer.joyC.getPOV() <= 135);
   }
 
-  public boolean dpadButtonLeft() {
+  public static boolean dpadButtonLeft() {
     return (RobotContainer.joyC.getPOV() >= 225 && RobotContainer.joyC.getPOV() <= 315);
   }
 
-  public boolean dpadButtonUp() {
+  public static boolean dpadButtonUp() {
     return (RobotContainer.joyC.getPOV() >= 315 && RobotContainer.joyC.getPOV() < 360)
         || (RobotContainer.joyC.getPOV() >= 0 && RobotContainer.joyC.getPOV() <= 45);
   }
 
-  public boolean dpadButtonDown() {
+  public static boolean dpadButtonDown() {
     return (RobotContainer.joyC.getPOV() >= 135 && RobotContainer.joyC.getPOV() <= 225);
   }
 
-  public boolean dpadButtonRight_JoyD() {
+  public static boolean dpadButtonRight_JoyD() {
     return (RobotContainer.joyC.getPOV() >= 45 && RobotContainer.joyC.getPOV() <= 135);
   }
 
-  public boolean dpadButtonLeft_JoyD() {
+  public static boolean dpadButtonLeft_JoyD() {
     return (RobotContainer.joyC.getPOV() >= 225 && RobotContainer.joyC.getPOV() <= 315);
   }
 
-  public boolean dpadButtonUp_JoyD() {
+  public static boolean dpadButtonUp_JoyD() {
     return (RobotContainer.joyC.getPOV() >= 315 && RobotContainer.joyC.getPOV() < 360)
         || (RobotContainer.joyC.getPOV() >= 0 && RobotContainer.joyC.getPOV() <= 45);
   }
 
-  public boolean dpadButtonDown_JoyD() {
+  public static boolean dpadButtonDown_JoyD() {
     return (RobotContainer.joyC.getPOV() >= 135 && RobotContainer.joyC.getPOV() <= 225);
   }
 }
