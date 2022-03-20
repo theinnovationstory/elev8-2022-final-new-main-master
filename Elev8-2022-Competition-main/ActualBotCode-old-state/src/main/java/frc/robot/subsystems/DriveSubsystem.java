@@ -20,7 +20,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -46,7 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
   private PIDController controllerang;
   private PIDController controllerangle;
   public Pose2d pose;
-  public double a_botXpose, b_botYpose;
+  public double a_botXpose, b_botYpose, d_theta = 0.0;
   public double[] x, y;
   public double angle, angletotake, trans_Lmot, trans_Rmot;
 
@@ -54,7 +53,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
 
     DriveSubsystem.navx = new AHRS(SPI.Port.kMXP);
-    // DriveSubsystem.navx.reset();
+    DriveSubsystem.navx.reset();
     DriveSubsystem.navx.zeroYaw();
     this.FR = new CANSparkMax(DrivingConstants.FR_ID, MotorType.kBrushless);
     this.BR = new CANSparkMax(DrivingConstants.BR_ID, MotorType.kBrushless);
@@ -154,6 +153,10 @@ public class DriveSubsystem extends SubsystemBase {
     return DriveSubsystem.navx.getYaw();
   }
 
+  public double getDTheta() {
+    return this.d_theta;
+  }
+
   public void arcadeAutonomousInbuilt(double speed, double turn) {
     this.rightSide.setInverted(false);
 
@@ -231,6 +234,54 @@ public class DriveSubsystem extends SubsystemBase {
     return speed;
     // Ang_Lmot=
     // Ang_Rmot=
+  }
+
+  public double[] speedcontrolforalign(double x, double y) {
+    this.a_botXpose = this.pose.getX();
+    this.b_botYpose = this.pose.getY();
+
+    this.angle = -DriveSubsystem.navx.getAngle() % 360;
+    this.angletotake = Math.toDegrees(Math.atan2((y - this.b_botYpose), (x - this.a_botXpose)));
+    // angletotake = Math.toDegrees(Math.atan2(1, 1));
+
+    // Clip the Angle from [-180 to 180] -> [0 to 360]
+    this.angletotake = (this.angletotake + 720) % 360;
+    // double d = Math.sqrt(Math.pow((this.a_botXpose - x), 2) +
+    // Math.pow((this.b_botYpose - y), 2));
+    this.d_theta = this.angletotake - this.angle;
+    double theta_dir = this.d_theta / Math.abs(this.d_theta);
+
+    if (Math.abs(d_theta) >= 180) {
+      this.d_theta = 360 - Math.abs(this.d_theta);
+      theta_dir *= -1;
+    } else {
+      this.d_theta = Math.abs(d_theta);
+      theta_dir *= 1;
+    }
+
+    this.trans_Lmot = -this.controllerangle.calculate(0, this.d_theta * theta_dir);
+    this.trans_Rmot = +this.controllerangle.calculate(0, this.d_theta * theta_dir);
+
+    // Equal Weightage for Both PIDs
+    if (Math.abs(this.trans_Lmot) > DrivingConstants.sexyMaxSpeed
+        || Math.abs(this.trans_Rmot) > DrivingConstants.sexyMaxSpeed) {
+      if (Math.abs(this.trans_Lmot) > Math.abs(this.trans_Rmot)) {
+        this.trans_Rmot = DrivingConstants.sexyMaxSpeed * this.trans_Rmot / Math.abs(this.trans_Lmot);
+        this.trans_Lmot = DrivingConstants.sexyMaxSpeed * this.trans_Lmot / Math.abs(this.trans_Lmot);
+        // MathUtil.F(trans_Lmot, -0.2, 0.2);
+      } else {
+        this.trans_Lmot = DrivingConstants.sexyMaxSpeed * this.trans_Lmot / Math.abs(this.trans_Rmot);
+        this.trans_Rmot = DrivingConstants.sexyMaxSpeed * this.trans_Rmot / Math.abs(this.trans_Rmot);
+        // MathUtil.clamp(trans_Rmot, -0.2, 0.2);
+      }
+
+    }
+    double speed[] = { this.trans_Lmot, this.trans_Rmot };
+    // double speed[] = { DrivingConstants.sexyMaxSpeed,
+    // DrivingConstants.sexyMaxSpeed };
+
+    return speed;
+
   }
 
   public double[] speedcontrolforanglecorrect(double angletocorrect) {

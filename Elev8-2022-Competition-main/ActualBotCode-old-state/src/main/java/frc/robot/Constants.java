@@ -128,7 +128,7 @@ public final class Constants {
         public static final double kFF = 0.00017;
         public static final double kMaxOutput = 1;
         public static final double deadbandVelocity = 500;
-        public static double setThisVelocity = 2550;
+        public static double setThisVelocity = 2590;
     }
 
     public final static class ClimberConstants {

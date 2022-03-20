@@ -13,11 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.auto.intake.AutonomousIntakeCommand;
 import frc.robot.commands.auto.routine.AutonomousRoutineCommand;
-import frc.robot.commands.auto.shooter.AutonomousShooterCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DrivingConstants;
 import frc.robot.Constants.OIConstants;
@@ -25,11 +21,9 @@ import frc.robot.Constants.VisionConstants;
 // import frc.robot.Constants.OIConstants.OIJoyC;
 // import frc.robot.commands.auto.drive.AutonomousDriveRoutineGroupCommand;
 // import frc.robot.commands.auto.drive.AutonomousTurnByAngleCommand;
-import frc.robot.commands.auto.drive.tester.DriveBySecondCoordinateCommand;
-import frc.robot.commands.auto.drive.tester.DriveToACoordinateCommand;
+import frc.robot.commands.auto.drive.tester.DriveByThirdCoordinateCommand;
 // import frc.robot.commands.auto.shooter.ShooterByTimeCommand;
 import frc.robot.commands.teleop.climber.inner.InnerClimberCommand;
-import frc.robot.commands.teleop.climber.inner.InnerClimberHorizontalAlignmentCommand;
 import frc.robot.commands.teleop.climber.inner.InnerClimberLeftTiltCommand;
 import frc.robot.commands.teleop.climber.inner.InnerClimberRightTiltCommand;
 import frc.robot.commands.teleop.climber.outer.OuterClimberCommand;
@@ -47,11 +41,13 @@ import frc.robot.commands.teleop.feeder.ServoFeederCommand;
 import frc.robot.commands.teleop.intake.IntakeCommand;
 import frc.robot.commands.teleop.intake.IntakeStoppingCommand;
 import frc.robot.commands.teleop.intake.ReverseCommand;
+import frc.robot.commands.teleop.intakestarter.IntakeStartCommand;
 import frc.robot.commands.teleop.shooter.ShooterCommand;
 // import frc.robot.commands.teleop.shooter.ShooterJoyTestCommand;
 // import frc.robot.commands.teleop.shooter.ShooterCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.IntakeStarterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ServoFeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -86,6 +82,7 @@ public class RobotContainer {
   private final InnerPGSubsystem innerPGSubsystem;
   private final OuterPGSubsystem outerPGSubsystem;
   private final ServoFeederSubsystem servoFeederSubsystem;
+  private final IntakeStarterSubsystem intakeStarterSubsystem;
   private final SlewRateLimiter speedLimit, turnLimit;
 
   /**
@@ -102,6 +99,7 @@ public class RobotContainer {
     this.innerPGSubsystem = new InnerPGSubsystem();
     this.outerPGSubsystem = new OuterPGSubsystem();
     this.servoFeederSubsystem = new ServoFeederSubsystem();
+    this.intakeStarterSubsystem = new IntakeStarterSubsystem();
 
     this.speedLimit = new SlewRateLimiter(DrivingConstants.kRiseLimiter);
     this.turnLimit = new SlewRateLimiter(DrivingConstants.kRiseLimiter);
@@ -117,6 +115,11 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Set Default commands
+    // Intake Start
+    this.intakeStarterSubsystem.setDefaultCommand(
+        new IntakeStartCommand(this.intakeStarterSubsystem, () -> dpadButtonUp_JoyD(), () -> dpadButtonDown_JoyD()));
+    ;
+
     // Drive
     this.driveSubsystem.setDefaultCommand(
         new DriveCommand(this.driveSubsystem, () -> -1 * RobotContainer.joyD.getRawAxis(OIConstants.kJoyDSpeedAxis),
@@ -212,24 +215,14 @@ public class RobotContainer {
             this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonLeft()));
 
     // Test Autonomous Sequence
-    // new JoystickButton(RobotContainer.joyD, 7)
-    // .whenPressed(
-    // new SequentialCommandGroup(
-    // new ParallelRaceGroup(new AutonomousIntakeCommand(this.intakeSubsystem),
-    // new AutonomousShooterCommand(this.shooterSubsystem),new
-    // AutonomousFeederCommand(this.FeederSubsystem)
-
-    // new DriveToACoordinateCommand(this.driveSubsystem, 1.5, 0)),
-    // new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
-    // new DriveBySecondCoordinateCommand(this.driveSubsystem, 167),
-    // new DriveBySecondCoordinateCommand(this.driveSubsystem, 9),
-    // new DriveToACoordinateCommand(this.driveSubsystem, 3, -0.94),
-    // new DriveToACoordinateCommand(this.driveSubsystem, 0, 0),
-    // new DriveBySecondCoordinateCommand(this.driveSubsystem, 167)));
+    new JoystickButton(RobotContainer.joyD, 9)
+        .whenPressed(
+            new DriveByThirdCoordinateCommand(driveSubsystem, -2.21, 0));
+    // new DriveBySecondCoordinateCommand(this.driveSubsystem, 180));
 
     // Test Autonomous Angle Movement
     // new JoystickButton(RobotContainer.joyD, 5)
-    //     .whenPressed(new DriveBySecondCoordinateCommand(this.driveSubsystem,30));
+    // .whenPressed(new DriveBySecondCoordinateCommand(this.driveSubsystem,30));
 
     // Climber Body Horizontal Alignment - Inner
     // new JoystickButton(RobotContainer.joyC, 1)
@@ -305,8 +298,20 @@ public class RobotContainer {
     return (RobotContainer.joyC.getPOV() >= 135 && RobotContainer.joyC.getPOV() <= 225);
   }
 
-  // public boolean dpadButtonUp_M() {
-  //   return (RobotContainer.joyC.getPOV() >= 315 && RobotContainer.joyC.getPOV() < 360)
-  //       || (RobotContainer.joyC.getPOV() >= 0 && RobotContainer.joyC.getPOV() <= 45);
-  // }
+  public boolean dpadButtonRight_JoyD() {
+    return (RobotContainer.joyC.getPOV() >= 45 && RobotContainer.joyC.getPOV() <= 135);
+  }
+
+  public boolean dpadButtonLeft_JoyD() {
+    return (RobotContainer.joyC.getPOV() >= 225 && RobotContainer.joyC.getPOV() <= 315);
+  }
+
+  public boolean dpadButtonUp_JoyD() {
+    return (RobotContainer.joyC.getPOV() >= 315 && RobotContainer.joyC.getPOV() < 360)
+        || (RobotContainer.joyC.getPOV() >= 0 && RobotContainer.joyC.getPOV() <= 45);
+  }
+
+  public boolean dpadButtonDown_JoyD() {
+    return (RobotContainer.joyC.getPOV() >= 135 && RobotContainer.joyC.getPOV() <= 225);
+  }
 }
