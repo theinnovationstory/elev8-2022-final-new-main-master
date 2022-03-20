@@ -12,6 +12,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.auto.routine.AutonomousRoutineCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -222,6 +223,10 @@ public class RobotContainer {
     new JoystickButton(RobotContainer.joyD, 10)
         .whenPressed(
             new DriveByAFourthCoordinateCommand(driveSubsystem, -2.21, 0, 1));
+
+    new JoystickButton(RobotContainer.joyD, 11).whenPressed(new SequentialCommandGroup(
+        new DriveByAFourthCoordinateCommand(driveSubsystem, -2.21, 0, 1),
+        new DriveByThirdCoordinateCommand(driveSubsystem, -2.21, 0)));
 
     // Bot Distance aligning tool to the Goal
 
