@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.commands.auto.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.servo.ServoFeederSubsystem;
@@ -12,7 +12,7 @@ public class AutoStartServosCommand extends CommandBase {
   private double FIRST_ANGLE = 100;
   private double SECOND_ANGLE = -100;
   /** Creates a new Auto_intake_Commands. */
-  public Auto_intake_Commands(ServoFeederSubsystem initialServosSubsystem) {
+  public AutoStartServosCommand(ServoFeederSubsystem initialServosSubsystem) {
     this.initialServosSubsystem = initialServosSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.initialServosSubsystem);
