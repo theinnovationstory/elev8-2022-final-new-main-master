@@ -5,16 +5,25 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.servo.ServoFeederSubsystem;
 
-public class Auto_intake_Commands extends CommandBase {
+public class AutoStartServosCommand extends CommandBase {
+  private ServoFeederSubsystem initialServosSubsystem;
+  private double FIRST_ANGLE = 100;
+  private double SECOND_ANGLE = -100;
   /** Creates a new Auto_intake_Commands. */
-  public Auto_intake_Commands() {
+  public Auto_intake_Commands(ServoFeederSubsystem initialServosSubsystem) {
+    this.initialServosSubsystem = initialServosSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(this.initialServosSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    this.initialServosSubsystem.setServo1Speed(FIRST_ANGLE);
+    this.initialServosSubsystem.setServo2Speed(SECOND_ANGLE);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
