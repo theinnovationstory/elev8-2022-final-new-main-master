@@ -13,11 +13,17 @@ import frc.robot.Constants.FeederConstants;
 
 public class ServoFeederSubsystem extends SubsystemBase {
   private final Servo stopper;
+  private final Servo stopper1;
+  private final Servo stopper2;
 
   /** Creates a new ServoFeederSubsystem. */
   public ServoFeederSubsystem() {
     this.stopper = new Servo(FeederConstants.servo_port);
     this.stopper.setAngle(FeederConstants.positionAngle);
+    this.stopper1 = new Servo(1);
+    this.stopper1.setAngle(FeederConstants.positionAngle);
+    this.stopper2 = new Servo(2);
+    this.stopper2.setAngle(FeederConstants.positionAngle);
   }
 
   @Override
@@ -33,6 +39,12 @@ public class ServoFeederSubsystem extends SubsystemBase {
 
   public double getPosition() {
     return this.stopper.getAngle();
+  }
+  public double getPosition1() {
+    return this.stopper1.getAngle();
+  }
+  public double getPosition2() {
+    return this.stopper2.getAngle();
   }
 
   public void setServoSpeed(double angle) {
@@ -53,5 +65,11 @@ public class ServoFeederSubsystem extends SubsystemBase {
     // this.stopper.setAngle(FeederConstants.initialAngle);
 
     // }
+  }
+  public void setServo1Speed(double angle) {
+    this.stopper1.setAngle(angle);
+  }
+  public void setServo2Speed(double angle) {
+    this.stopper2.setAngle(angle);
   }
 }
