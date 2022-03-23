@@ -270,7 +270,7 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     // return new AutonomousDriveRoutineGroupCommand(this.driveSubsystem);
     // return new InnerClimberHorizontalAlignmentCommand(innerClimberSubsystem);
-    return new AutonomousRoutineCommand(shooterSubsystem, feederSubsystem, driveSubsystem, intakeSubsystem);
+    return new AutonomousRoutineCommand(shooterSubsystem, feederSubsystem, driveSubsystem, intakeSubsystem, servoFeederSubsystem);
   }
 
   public static boolean getTarget() {
