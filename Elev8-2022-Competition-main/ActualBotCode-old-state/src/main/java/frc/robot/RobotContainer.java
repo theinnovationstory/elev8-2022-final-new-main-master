@@ -34,8 +34,10 @@ import frc.robot.commands.teleop.climber.outer.OuterClimberHorizontalAlignmentCo
 import frc.robot.commands.teleop.climber.outer.OuterClimberLeftTiltCommand;
 import frc.robot.commands.teleop.climber.outer.OuterClimberRightTiltCommand;
 import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberCommand;
+import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberMoveDistanceCommand;
 import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberStopCommand;
 import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberCommand;
+import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberMoveDistanceCommand;
 import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberStopCommand;
 import frc.robot.commands.teleop.drive.DriveCommand;
 import frc.robot.commands.teleop.feeder.FeederCommand;
@@ -214,6 +216,19 @@ public class RobotContainer {
         .whenPressed(new OuterPGClimberStopCommand(this.outerPGSubsystem,
             this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonLeft()));
 
+    // PG Stopper Button Binding Integration - Inner
+    new JoystickButton(RobotContainer.joyC,
+        OIConstants.OIJoyC.innerPGMoveDistance_Button_One)
+        .whenPressed(new InnerPGClimberMoveDistanceCommand(this.innerPGSubsystem,
+            this.innerPGSubsystem.getInnerPGPosition(),
+            () -> dpadButtonUp()));
+
+    // PG Stopper Button Binding Integration - Outer
+    new JoystickButton(RobotContainer.joyC,
+        OIConstants.OIJoyC.outerPGMoveDistance_Button_Four)
+        .whenPressed(new OuterPGClimberMoveDistanceCommand(this.outerPGSubsystem,
+            this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonDown()));
+
     // Bot Goal Aligning Tool
     new JoystickButton(RobotContainer.joyD, 9)
         .whenPressed(
@@ -242,7 +257,7 @@ public class RobotContainer {
     // InnerClimberHorizontalAlignmentCommand(this.innerClimberSubsystem));
 
     // Climber Body Horizontal Alignment - Outer
-    new JoystickButton(RobotContainer.joyC, 4)
+    new JoystickButton(RobotContainer.joyC, 8)
         .whenPressed(new OuterClimberHorizontalAlignmentCommand(this.outerClimberSubsystem));
 
     // Climber Left Tilt - Inner
