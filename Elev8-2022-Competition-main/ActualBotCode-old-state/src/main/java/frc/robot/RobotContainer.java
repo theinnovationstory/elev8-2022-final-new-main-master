@@ -285,7 +285,8 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     // return new AutonomousDriveRoutineGroupCommand(this.driveSubsystem);
     // return new InnerClimberHorizontalAlignmentCommand(innerClimberSubsystem);
-    return new AutonomousRoutineCommand(shooterSubsystem, feederSubsystem, driveSubsystem, intakeSubsystem, servoFeederSubsystem);
+    return new AutonomousRoutineCommand(shooterSubsystem, feederSubsystem, driveSubsystem, intakeSubsystem,
+        servoFeederSubsystem);
   }
 
   public static boolean getTarget() {
@@ -326,19 +327,19 @@ public class RobotContainer {
   }
 
   public static boolean dpadButtonRight_JoyD() {
-    return (RobotContainer.joyC.getPOV() >= 45 && RobotContainer.joyC.getPOV() <= 135);
+    return (RobotContainer.joyD.getPOV() >= 45 && RobotContainer.joyD.getPOV() <= 135);
   }
 
   public static boolean dpadButtonLeft_JoyD() {
-    return (RobotContainer.joyC.getPOV() >= 225 && RobotContainer.joyC.getPOV() <= 315);
+    return (RobotContainer.joyD.getPOV() >= 225 && RobotContainer.joyD.getPOV() <= 315);
   }
 
   public static boolean dpadButtonUp_JoyD() {
-    return (RobotContainer.joyC.getPOV() >= 315 && RobotContainer.joyC.getPOV() < 360)
-        || (RobotContainer.joyC.getPOV() >= 0 && RobotContainer.joyC.getPOV() <= 45);
+    return (RobotContainer.joyD.getPOV() >= 315 && RobotContainer.joyD.getPOV() < 360)
+        || (RobotContainer.joyD.getPOV() >= 0 && RobotContainer.joyD.getPOV() <= 45);
   }
 
   public static boolean dpadButtonDown_JoyD() {
-    return (RobotContainer.joyC.getPOV() >= 135 && RobotContainer.joyC.getPOV() <= 225);
+    return (RobotContainer.joyD.getPOV() >= 135 && RobotContainer.joyD.getPOV() <= 225);
   }
 }
