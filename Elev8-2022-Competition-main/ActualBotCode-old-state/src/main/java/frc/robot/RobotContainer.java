@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.auto.routine.AutonomousRoutineCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DrivingConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.VisionConstants;
@@ -33,8 +34,10 @@ import frc.robot.commands.teleop.climber.outer.OuterClimberHorizontalAlignmentCo
 import frc.robot.commands.teleop.climber.outer.OuterClimberLeftTiltCommand;
 import frc.robot.commands.teleop.climber.outer.OuterClimberRightTiltCommand;
 import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberCommand;
+import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberMoveDistanceCommand;
 import frc.robot.commands.teleop.climber.pg.inner.InnerPGClimberStopCommand;
 import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberCommand;
+import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberMoveDistanceCommand;
 import frc.robot.commands.teleop.climber.pg.outer.OuterPGClimberStopCommand;
 import frc.robot.commands.teleop.drive.DriveCommand;
 import frc.robot.commands.teleop.feeder.FeederCommand;
@@ -115,10 +118,6 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Set Default commands
-    // Intake Start
-    this.intakeStarterSubsystem.setDefaultCommand(
-        new IntakeStartCommand(this.intakeStarterSubsystem, () -> dpadButtonUp_JoyD(), () -> dpadButtonDown_JoyD()));
-    ;
 
     // Drive
     this.driveSubsystem.setDefaultCommand(
@@ -179,6 +178,9 @@ public class RobotContainer {
     // new JoystickButton(RobotContainer.joyD, OIConstants.feeder_X_ButtonNumber)
     // .whenActive(new FeederCommand(this.feederSubsystem));
 
+    // Intake Starter Command
+    new Trigger(() -> dpadButtonUp_JoyD()).toggleWhenActive(new IntakeStartCommand(this.intakeStarterSubsystem));
+
     // Intake Forward Button Integration
     new JoystickButton(RobotContainer.joyC, 7)
         .toggleWhenActive(new IntakeCommand(this.intakeSubsystem)); // X
@@ -214,6 +216,19 @@ public class RobotContainer {
         .whenPressed(new OuterPGClimberStopCommand(this.outerPGSubsystem,
             this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonLeft()));
 
+    // PG Stopper Button Binding Integration - Inner
+    new JoystickButton(RobotContainer.joyC,
+        OIConstants.OIJoyC.innerPGMoveDistance_Button_One)
+        .whenPressed(new InnerPGClimberMoveDistanceCommand(this.innerPGSubsystem,
+            this.innerPGSubsystem.getInnerPGPosition(),
+            () -> dpadButtonUp()));
+
+    // PG Stopper Button Binding Integration - Outer
+    new JoystickButton(RobotContainer.joyC,
+        OIConstants.OIJoyC.outerPGMoveDistance_Button_Four)
+        .whenPressed(new OuterPGClimberMoveDistanceCommand(this.outerPGSubsystem,
+            this.outerPGSubsystem.getOuterPGPosition(), () -> dpadButtonDown()));
+
     // Bot Goal Aligning Tool
     new JoystickButton(RobotContainer.joyD, 9)
         .whenPressed(
@@ -242,7 +257,7 @@ public class RobotContainer {
     // InnerClimberHorizontalAlignmentCommand(this.innerClimberSubsystem));
 
     // Climber Body Horizontal Alignment - Outer
-    new JoystickButton(RobotContainer.joyC, 4)
+    new JoystickButton(RobotContainer.joyC, 8)
         .whenPressed(new OuterClimberHorizontalAlignmentCommand(this.outerClimberSubsystem));
 
     // Climber Left Tilt - Inner
@@ -270,7 +285,8 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     // return new AutonomousDriveRoutineGroupCommand(this.driveSubsystem);
     // return new InnerClimberHorizontalAlignmentCommand(innerClimberSubsystem);
-    return new AutonomousRoutineCommand(shooterSubsystem, feederSubsystem, driveSubsystem, intakeSubsystem);
+    return new AutonomousRoutineCommand(shooterSubsystem, feederSubsystem, driveSubsystem, intakeSubsystem,
+        servoFeederSubsystem);
   }
 
   public static boolean getTarget() {
@@ -293,37 +309,37 @@ public class RobotContainer {
     return ta.getDouble(VisionConstants.defaultAreaValue);
   }
 
-  public boolean dpadButtonRight() {
+  public static boolean dpadButtonRight() {
     return (RobotContainer.joyC.getPOV() >= 45 && RobotContainer.joyC.getPOV() <= 135);
   }
 
-  public boolean dpadButtonLeft() {
+  public static boolean dpadButtonLeft() {
     return (RobotContainer.joyC.getPOV() >= 225 && RobotContainer.joyC.getPOV() <= 315);
   }
 
-  public boolean dpadButtonUp() {
+  public static boolean dpadButtonUp() {
     return (RobotContainer.joyC.getPOV() >= 315 && RobotContainer.joyC.getPOV() < 360)
         || (RobotContainer.joyC.getPOV() >= 0 && RobotContainer.joyC.getPOV() <= 45);
   }
 
-  public boolean dpadButtonDown() {
+  public static boolean dpadButtonDown() {
     return (RobotContainer.joyC.getPOV() >= 135 && RobotContainer.joyC.getPOV() <= 225);
   }
 
-  public boolean dpadButtonRight_JoyD() {
-    return (RobotContainer.joyC.getPOV() >= 45 && RobotContainer.joyC.getPOV() <= 135);
+  public static boolean dpadButtonRight_JoyD() {
+    return (RobotContainer.joyD.getPOV() >= 45 && RobotContainer.joyD.getPOV() <= 135);
   }
 
-  public boolean dpadButtonLeft_JoyD() {
-    return (RobotContainer.joyC.getPOV() >= 225 && RobotContainer.joyC.getPOV() <= 315);
+  public static boolean dpadButtonLeft_JoyD() {
+    return (RobotContainer.joyD.getPOV() >= 225 && RobotContainer.joyD.getPOV() <= 315);
   }
 
-  public boolean dpadButtonUp_JoyD() {
-    return (RobotContainer.joyC.getPOV() >= 315 && RobotContainer.joyC.getPOV() < 360)
-        || (RobotContainer.joyC.getPOV() >= 0 && RobotContainer.joyC.getPOV() <= 45);
+  public static boolean dpadButtonUp_JoyD() {
+    return (RobotContainer.joyD.getPOV() >= 315 && RobotContainer.joyD.getPOV() < 360)
+        || (RobotContainer.joyD.getPOV() >= 0 && RobotContainer.joyD.getPOV() <= 45);
   }
 
-  public boolean dpadButtonDown_JoyD() {
-    return (RobotContainer.joyC.getPOV() >= 135 && RobotContainer.joyC.getPOV() <= 225);
+  public static boolean dpadButtonDown_JoyD() {
+    return (RobotContainer.joyD.getPOV() >= 135 && RobotContainer.joyD.getPOV() <= 225);
   }
 }

@@ -74,6 +74,8 @@ public final class Constants {
 
             public static final int innerPGStop_Button_Two = 2;
             public static final int outerPGStop_Button_Three = 3;
+            public static final int innerPGMoveDistance_Button_One = 1;
+            public static final int outerPGMoveDistance_Button_Four = 4;
 
         }
 
